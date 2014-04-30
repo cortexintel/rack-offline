@@ -25,10 +25,12 @@ module Rails
 
     def cache_block(root)
       Proc.new do
-        if Rails.version >= "3.1" && Rails.configuration.assets.enabled
-          files = Dir[
-            "#{root}/**/*.html",
-            "#{root}/assets/**/*.{js,css,jpg,png,gif}"]
+        if Rails.version >= "3.1"
+          if Rails.configuration.assets.enabled || defined?(Sprockets::Rails)
+            files = Dir[
+              "#{root}/**/*.html",
+              "#{root}/assets/**/*.{js,css,jpg,png,gif}"]
+          end
         else
           files = Dir[
             "#{root}/**/*.html",
